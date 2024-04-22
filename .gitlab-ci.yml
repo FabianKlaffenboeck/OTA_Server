@@ -24,7 +24,7 @@ variables:
       --push .
 
 .gradle-job: &gradle-job
-  image: gradle:7.5-jdk18
+  image: gradle:8.7-jdk21
 
 test:
   <<: *gradle-job
