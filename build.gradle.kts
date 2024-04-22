@@ -1,6 +1,8 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val exposed_version: String by project
+val sqlite_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.23"
@@ -36,9 +38,15 @@ dependencies {
     implementation("io.ktor:ktor-serialization-jackson-jvm")
     implementation("org.jetbrains.exposed:exposed-core:0.41.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
+
     implementation("com.h2database:h2:2.1.214")
+    implementation("org.xerial:sqlite-jdbc:$sqlite_version")
+    implementation("mysql:mysql-connector-java:8.0.32")
+
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+
 }
