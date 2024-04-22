@@ -1,0 +1,8 @@
+openapi: "3.1.0"
+info:
+  title: "OTA_Server API"
+  description: "OTA_Server API"
+  version: "1.0.0"
+servers:
+- url: "https://OTA_Server"
+paths: {}
