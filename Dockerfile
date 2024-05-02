@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8u362-b09-jre-jammy
+FROM eclipse-temurin:21
 EXPOSE 8080
 RUN mkdir "/app"
 COPY ./build/install/OTA_Server /app/
