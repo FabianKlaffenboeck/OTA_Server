@@ -61,7 +61,7 @@ deploy:
 deploy-latest:
   <<: *docker-job
   stage: deploy
-  #  only:
-  #    - master
+  only:
+    - master
   variables:
     IMAGE_TAG: latest
