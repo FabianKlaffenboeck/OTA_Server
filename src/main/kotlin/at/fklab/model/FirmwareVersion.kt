@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.javatime.datetime
 import java.util.*
 
 enum class UpdateCategory {
-    Optional, Required, BreakingChanges
+    Optional, Manual, Required, BreakingChanges
 }
 
 object FirmwareVersions : UUIDTable("FirmwareVersions") {
@@ -28,12 +28,12 @@ object FirmwareVersions : UUIDTable("FirmwareVersions") {
 class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<FirmwareVersionEntity>(FirmwareVersions)
 
-    var versionNr by FirmwareVersions.versionNr
-    var gitCommitId by FirmwareVersions.gitCommitId
-    var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
-    var updateCategory by FirmwareVersions.updateCategory
-    var firmwareFileName by FirmwareVersions.firmwareFileName
-    var info by FirmwareVersions.info
+    private var versionNr by FirmwareVersions.versionNr
+    private var gitCommitId by FirmwareVersions.gitCommitId
+    private var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
+    private var updateCategory by FirmwareVersions.updateCategory
+    private var firmwareFileName by FirmwareVersions.firmwareFileName
+    private var info by FirmwareVersions.info
 
     var updatedAt by FirmwareVersions.updatedAt
     var updatedBy by FirmwareVersions.updatedBy
@@ -41,7 +41,7 @@ class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var deletedBy by FirmwareVersions.deletedBy
 
     fun toFirmwareVersion() = FirmwareVersion(
-        id.value, versionNr, gitCommitId, hardwareDevice.toHardwareDevice(), updateCategory, firmwareFileName, info
+        id.value, versionNr, gitCommitId, hardwareDevice.toAccessDevice(), updateCategory, firmwareFileName, info
     )
 }
 

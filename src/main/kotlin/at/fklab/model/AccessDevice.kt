@@ -9,7 +9,7 @@ import java.util.*
 
 
 object AccessDevices : UUIDTable("AccessDevices") {
-    val info = text("info")
+    val info = text("info").nullable()
 
     val updatedAt = datetime("updatedAt").nullable()
     val updatedBy = text("updatedBy").nullable()
@@ -20,19 +20,19 @@ object AccessDevices : UUIDTable("AccessDevices") {
 class AccessDeviceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccessDeviceEntity>(AccessDevices)
 
-    val tokens by AccessTokenEntity referrersOn AccessTokens.accessDevice
-    var info by AccessDevices.info
+    private val tokens by AccessTokenEntity referrersOn AccessTokens.accessDevice
+    private var info by AccessDevices.info
 
     var updatedAt by AccessDevices.updatedAt
     var updatedBy by AccessDevices.updatedBy
     var deletedAt by AccessDevices.deletedAt
     var deletedBy by AccessDevices.deletedBy
 
-    fun toHardwareDevice() = AccessDevice(
+    fun toAccessDevice() = AccessDevice(
         id.value, tokens.iterator().asSequence().toList(), info
     )
 }
 
 class AccessDevice(
-    var id: UUID?, var tokens: List<AccessTokenEntity>, var info: String
+    var id: UUID?, var tokens: List<AccessTokenEntity>, var info: String?
 )
