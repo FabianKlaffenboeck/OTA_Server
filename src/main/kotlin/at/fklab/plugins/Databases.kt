@@ -1,15 +1,14 @@
 package at.fklab.plugins
 
-import at.fklab.model.EndDevices
-import io.ktor.http.*
+import at.fklab.model.AccessDevices
+import at.fklab.model.AccessTokens
+import at.fklab.model.FirmwareVersions
 import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(EndDevices)
+val tables = listOf(AccessDevices, AccessTokens, FirmwareVersions)
 
 
 fun Application.configureDatabases(

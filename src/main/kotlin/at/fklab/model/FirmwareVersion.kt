@@ -14,7 +14,7 @@ enum class UpdateCategory {
 object FirmwareVersions : UUIDTable("FirmwareVersions") {
     val versionNr = text("versionNr")
     val gitCommitId = text("gitCommitId")
-    val hardwareDevice = reference("hardwareDevice_id", HardwareDevices)
+    val hardwareDevice = reference("hardwareDevice_id", AccessDevices)
     val updateCategory = enumeration("updateCategory", UpdateCategory::class)
     val firmwareFileName = text("firmwareFileName")
     val info = text("info").nullable()
@@ -30,7 +30,7 @@ class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var versionNr by FirmwareVersions.versionNr
     var gitCommitId by FirmwareVersions.gitCommitId
-    var hardwareDevice by HardwareDeviceEntity referencedOn FirmwareVersions.hardwareDevice
+    var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
     var updateCategory by FirmwareVersions.updateCategory
     var firmwareFileName by FirmwareVersions.firmwareFileName
     var info by FirmwareVersions.info
@@ -49,7 +49,7 @@ class FirmwareVersion(
     var id: UUID?,
     var versionNr: String,
     var gitCommitId: String,
-    var hardwareDevice: HardwareDevice,
+    var hardwareDevice: AccessDevice,
     var updateCategory: UpdateCategory,
     var firmwareFileName: String,
     var info: String?
