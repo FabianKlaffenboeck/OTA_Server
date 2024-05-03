@@ -20,7 +20,8 @@ object AccessDevices : UUIDTable("AccessDevices") {
 class AccessDeviceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccessDeviceEntity>(AccessDevices)
 
-    private val tokens by AccessTokenEntity referrersOn AccessTokens.accessDevice
+    private val tokens by AccessTokenEntity referrersOn AccessTokens.device_id
+    private val accessEventEntity by AccessEventEntity referrersOn AccessEvents.device_id
     private var info by AccessDevices.info
 
     var updatedAt by AccessDevices.updatedAt
@@ -29,10 +30,10 @@ class AccessDeviceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var deletedBy by AccessDevices.deletedBy
 
     fun toAccessDevice() = AccessDevice(
-        id.value, tokens.iterator().asSequence().toList(), info
+        id.value, tokens.iterator().asSequence().toList(), accessEventEntity.iterator().asSequence().toList(), info
     )
 }
 
 class AccessDevice(
-    var id: UUID?, var tokens: List<AccessTokenEntity>, var info: String?
+    var id: UUID?, var tokens: List<AccessTokenEntity>, var accessEvent: List<AccessEventEntity>, var info: String?
 )

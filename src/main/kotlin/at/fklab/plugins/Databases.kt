@@ -1,6 +1,7 @@
 package at.fklab.plugins
 
 import at.fklab.model.AccessDevices
+import at.fklab.model.AccessEvents
 import at.fklab.model.AccessTokens
 import at.fklab.model.FirmwareVersions
 import io.ktor.server.application.*
@@ -8,7 +9,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(AccessDevices, AccessTokens, FirmwareVersions)
+val tables = listOf(AccessDevices, AccessTokens, AccessEvents, FirmwareVersions)
 
 
 fun Application.configureDatabases(

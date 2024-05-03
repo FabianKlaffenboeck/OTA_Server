@@ -9,7 +9,7 @@ import java.util.*
 
 
 object AccessTokens : UUIDTable("AccessTokens") {
-    val accessDevice = reference("accessDevice", AccessDevices)
+    val device_id = reference("device_id", AccessDevices)
     val token = text("token")
     val info = text("info").nullable()
 
