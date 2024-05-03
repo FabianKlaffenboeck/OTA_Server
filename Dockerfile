@@ -1,5 +1,4 @@
-FROM eclipse-temurin:21.0.3_9-jre-jammy
-EXPOSE 8080
+FROM eclipse-temurin:21-alpine
 RUN mkdir "/app"
 COPY ./build/install/OTA_Server /app/
 CMD /app/bin/OTA_Server
