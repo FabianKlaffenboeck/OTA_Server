@@ -21,7 +21,7 @@ variables:
     - docker-buildx build
       --platform linux/amd64,linux/arm/v7,linux/arm64/v8
       --tag ${CI_REGISTRY_IMAGE}:$IMAGE_TAG
-      --push .
+#      --push .
 
 .gradle-job: &gradle-job
   image: gradle:8.7-jdk21
@@ -61,7 +61,7 @@ deploy:
 deploy-latest:
   <<: *docker-job
   stage: deploy
-  only:
-    - master
+#  only:
+#    - master
   variables:
     IMAGE_TAG: latest
