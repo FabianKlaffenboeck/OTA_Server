@@ -1,9 +1,9 @@
 package at.fklab.ota_server.plugins
 
-import at.fklab.ota_server.model.AccessDevices
-import at.fklab.ota_server.model.AccessEvents
-import at.fklab.ota_server.model.AccessTokens
-import at.fklab.ota_server.model.FirmwareVersions
+import at.fklab.ota_server.models.AccessDevices
+import at.fklab.ota_server.models.AccessEvents
+import at.fklab.ota_server.models.AccessTokens
+import at.fklab.ota_server.models.FirmwareVersions
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils

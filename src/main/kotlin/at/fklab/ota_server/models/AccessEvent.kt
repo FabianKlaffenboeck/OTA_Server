@@ -1,4 +1,4 @@
-package at.fklab.ota_server.model
+package at.fklab.ota_server.models
 
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
