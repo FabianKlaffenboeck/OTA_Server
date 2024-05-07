@@ -8,18 +8,12 @@ fun Application.configureSecurity() {
     authentication {
         basic("auth-basic") {
             validate { credentials ->
+
                 if (credentials.name == "test" && credentials.password == "test") {
                     UserIdPrincipal(credentials.name)
                 } else {
                     null
                 }
-            }
-        }
-        form {
-            userParamName = "user"
-            passwordParamName = "password"
-            challenge {
-                /**/
             }
         }
     }
