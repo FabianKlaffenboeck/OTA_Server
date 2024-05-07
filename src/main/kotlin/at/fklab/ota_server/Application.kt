@@ -2,9 +2,11 @@ package at.fklab.ota_server
 
 import at.fklab.ota_server.plugins.configureDatabases
 import at.fklab.ota_server.plugins.configureHTTP
+import at.fklab.ota_server.plugins.configureSecurity
 import at.fklab.ota_server.plugins.configureSerialization
 import at.fklab.ota_server.routes.firmwareRoute
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.swagger.*
@@ -26,15 +28,19 @@ fun Application.module() {
     val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
+
     configureHTTP()
     configureSerialization()
+    configureSecurity()
 
     val apiVersion = "v0.0.1"
 
     routing {
         route("/api/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
-            firmwareRoute()
+            authenticate("auth-basic", strategy = AuthenticationStrategy.Required) {
+                firmwareRoute()
+            }
         }
     }
 }
