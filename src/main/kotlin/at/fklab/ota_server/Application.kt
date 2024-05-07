@@ -1,13 +1,13 @@
-package at.fklab
+package at.fklab.ota_server
 
-import at.fklab.plugins.configureDatabases
-import at.fklab.plugins.configureHTTP
-import at.fklab.plugins.configureSerialization
+import at.fklab.ota_server.plugins.configureDatabases
+import at.fklab.ota_server.plugins.configureHTTP
+import at.fklab.ota_server.plugins.configureSerialization
+import at.fklab.ota_server.routes.firmwareRoute
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.swagger.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun main() {
@@ -32,8 +32,9 @@ fun Application.module() {
     val apiVersion = "v0.0.1"
 
     routing {
-        route("/api$apiVersion") {
+        route("/api/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
+            firmwareRoute()
         }
     }
 }

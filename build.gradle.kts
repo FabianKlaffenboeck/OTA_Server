@@ -10,11 +10,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
 }
 
-group = "at.fklab"
+group = "at.fklab.ota_server"
 version = "0.0.1"
 
 application {
-    mainClass.set("at.fklab.ApplicationKt")
+    mainClass.set("at.fklab.ota_server.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
