@@ -29,12 +29,11 @@ fun Application.module() {
     configureHTTP()
     configureSerialization()
 
+    val apiVersion = "v0.0.1"
+
     routing {
-        route("/api") {
+        route("/api$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
-            get() {
-                call.respondText("Hello World!")
-            }
         }
     }
 }
