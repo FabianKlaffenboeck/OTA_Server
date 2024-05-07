@@ -1,4 +1,4 @@
-package at.fklab
+package at.fklab.ota_server
 
 import at.fklab.plugins.*
 import io.ktor.client.request.*
