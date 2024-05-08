@@ -4,17 +4,21 @@ package at.fklab.ota_server.plugins
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 
+const val DEVICE_AUTH = "DEVICE_AUTH"
+
 fun Application.configureSecurity() {
     authentication {
-        basic("auth-basic") {
+        basic(DEVICE_AUTH) {
             validate { credentials ->
-
-                if (credentials.name == "test" && credentials.password == "test") {
-                    UserIdPrincipal(credentials.name)
-                } else {
-                    null
-                }
+                validateToken(credentials.name, credentials.password)
             }
         }
     }
+}
+
+fun validateToken(name: String, password: String): UserIdPrincipal? {
+    if (name.isEmpty() || password.isEmpty()) {
+        return null
+    }
+    return UserIdPrincipal(name)
 }

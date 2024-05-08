@@ -38,9 +38,7 @@ fun Application.module() {
     routing {
         route("/api/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
-            authenticate("auth-basic", strategy = AuthenticationStrategy.Required) {
-                firmwareRoute()
-            }
+            firmwareRoute()
         }
     }
 }
