@@ -20,9 +20,9 @@ object AccessDevices : UUIDTable("AccessDevices") {
 class AccessDeviceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccessDeviceEntity>(AccessDevices)
 
-    private val tokens by AccessTokenEntity referrersOn AccessTokens.device_id
-    private val accessEventEntity by AccessEventEntity referrersOn AccessEvents.device_id
-    private var info by AccessDevices.info
+    val tokens by AccessTokenEntity referrersOn AccessTokens.accessDevice_id
+    val accessEventEntity by AccessEventEntity referrersOn AccessEvents.accessDevice_id
+    var info by AccessDevices.info
 
     var updatedAt by AccessDevices.updatedAt
     var updatedBy by AccessDevices.updatedBy

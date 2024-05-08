@@ -28,12 +28,12 @@ object FirmwareVersions : UUIDTable("FirmwareVersions") {
 class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<FirmwareVersionEntity>(FirmwareVersions)
 
-    private var versionNr by FirmwareVersions.versionNr
-    private var gitCommitId by FirmwareVersions.gitCommitId
-    private var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
-    private var updateCategory by FirmwareVersions.updateCategory
-    private var firmwareFileName by FirmwareVersions.firmwareFileName
-    private var info by FirmwareVersions.info
+    var versionNr by FirmwareVersions.versionNr
+    var gitCommitId by FirmwareVersions.gitCommitId
+    var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
+    var updateCategory by FirmwareVersions.updateCategory
+    var firmwareFileName by FirmwareVersions.firmwareFileName
+    var info by FirmwareVersions.info
 
     var updatedAt by FirmwareVersions.updatedAt
     var updatedBy by FirmwareVersions.updatedBy

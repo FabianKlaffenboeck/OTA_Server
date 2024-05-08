@@ -9,8 +9,8 @@ import java.util.*
 
 
 object AccessTokens : UUIDTable("AccessTokens") {
-    val device_id = reference("device_id", AccessDevices)
-    val token = text("token")
+    val accessDevice_id = reference("accessDevice_id", AccessDevices)
+    val allowedRead = bool("allowedRead")
     val info = text("info").nullable()
 
     val updatedAt = datetime("updatedAt").nullable()
@@ -22,8 +22,10 @@ object AccessTokens : UUIDTable("AccessTokens") {
 class AccessTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccessTokenEntity>(AccessTokens)
 
-    private var token by AccessTokens.token
-    private var info by AccessTokens.info
+    var accessDevice by AccessDeviceEntity referencedOn AccessTokens.accessDevice_id
+
+    var allowedRead by AccessTokens.allowedRead
+    var info by AccessTokens.info
 
     var updatedAt by AccessTokens.updatedAt
     var updatedBy by AccessTokens.updatedBy
@@ -31,10 +33,10 @@ class AccessTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var deletedBy by AccessTokens.deletedBy
 
     fun toAccessToken() = AccessToken(
-        id.value, token, info
+        id.value, accessDevice.toAccessDevice(), allowedRead, info
     )
 }
 
 class AccessToken(
-    var id: UUID?, var token: String, var info: String?
+    var id: UUID?, var accessDevice: AccessDevice, var allowedRead: Boolean, var info: String?
 )

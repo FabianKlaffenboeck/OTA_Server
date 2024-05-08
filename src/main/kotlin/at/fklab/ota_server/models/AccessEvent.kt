@@ -9,20 +9,23 @@ import java.time.LocalDateTime
 import java.util.*
 
 object AccessEvents : UUIDTable("AccessEvents") {
-    val device_id = reference("device_id", AccessDevices)
+    val accessDevice_id = reference("accessDevice_id", AccessDevices)
+
     val eventTime = datetime("eventTime")
 }
 
 class AccessEventEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccessEventEntity>(AccessEvents)
 
-    private var eventTime by AccessEvents.eventTime
+    var accessDevice by AccessDeviceEntity referencedOn AccessEvents.accessDevice_id
+
+    var eventTime by AccessEvents.eventTime
 
     fun toAccessEvent() = AccessEvent(
-        id.value, eventTime
+        id.value, accessDevice.toAccessDevice(), eventTime
     )
 }
 
 class AccessEvent(
-    var id: UUID?, var eventTime: LocalDateTime
+    var id: UUID?, var accessDevice: AccessDevice, var eventTime: LocalDateTime
 )

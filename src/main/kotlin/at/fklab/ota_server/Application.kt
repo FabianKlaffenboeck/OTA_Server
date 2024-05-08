@@ -5,8 +5,8 @@ import at.fklab.ota_server.plugins.configureHTTP
 import at.fklab.ota_server.plugins.configureSecurity
 import at.fklab.ota_server.plugins.configureSerialization
 import at.fklab.ota_server.routes.firmwareRoute
+import at.fklab.ota_server.services.AccessDeviceService
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.swagger.*
@@ -27,6 +27,8 @@ fun Application.module() {
     val populateDB: Boolean = System.getenv("POPULTEDB").toBoolean()
     val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
 
+    val accessDeviceService = AccessDeviceService()
+
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
 
     configureHTTP()
@@ -38,7 +40,7 @@ fun Application.module() {
     routing {
         route("/api/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
-            firmwareRoute()
+            firmwareRoute(accessDeviceService)
         }
     }
 }
