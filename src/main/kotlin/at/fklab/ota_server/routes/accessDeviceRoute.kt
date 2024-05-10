@@ -39,7 +39,7 @@ fun Route.accessDeviceRoute(accessDeviceService: AccessDeviceService, accessToke
                 call.respond(accessDeviceService.update(accessDevice))
             }
 
-            delete("/{id}") {
+            delete("{id}") {
                 val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
                 call.respond(accessDeviceService.delete(UUID.fromString(id)))
             }

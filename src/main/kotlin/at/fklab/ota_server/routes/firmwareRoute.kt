@@ -27,9 +27,13 @@ fun Route.firmwareRoute(accessDeviceService: AccessDeviceService, firmwareVersio
                 call.respond(firmwareVersion)
             }
 
+            get("{id}/binary") {
+                call.respond(HttpStatusCode.NotImplemented)
+            }
+
             get("/deviceLatest/{id}") {
                 val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-                call.respond(firmwareVersionService.getAll(id))
+                call.respond(firmwareVersionService.getAll(id)[0])
             }
 
             post {
@@ -42,7 +46,7 @@ fun Route.firmwareRoute(accessDeviceService: AccessDeviceService, firmwareVersio
                 call.respond(firmwareVersionService.update(firmwareVersion))
             }
 
-            delete("/{id}") {
+            delete("{id}") {
                 val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
                 call.respond(firmwareVersionService.delete(UUID.fromString(id)))
             }

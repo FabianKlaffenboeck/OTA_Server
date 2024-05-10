@@ -17,6 +17,7 @@ object FirmwareVersions : UUIDTable("FirmwareVersions") {
     val hardwareDevice = reference("hardwareDevice_id", AccessDevices)
     val updateCategory = enumeration("updateCategory", UpdateCategory::class)
     val firmwareFileName = text("firmwareFileName")
+    val binaryHash = text("binaryHash")
     val info = text("info").nullable()
 
     val updatedAt = datetime("updatedAt").nullable()
@@ -33,6 +34,7 @@ class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var hardwareDevice by AccessDeviceEntity referencedOn FirmwareVersions.hardwareDevice
     var updateCategory by FirmwareVersions.updateCategory
     var firmwareFileName by FirmwareVersions.firmwareFileName
+    var binaryHash by FirmwareVersions.binaryHash
     var info by FirmwareVersions.info
 
     var updatedAt by FirmwareVersions.updatedAt
@@ -41,7 +43,14 @@ class FirmwareVersionEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var deletedBy by FirmwareVersions.deletedBy
 
     fun toFirmwareVersion() = FirmwareVersion(
-        id.value, versionNr, gitCommitId, hardwareDevice.toAccessDevice(), updateCategory, firmwareFileName, info
+        id.value,
+        versionNr,
+        gitCommitId,
+        hardwareDevice.toAccessDevice(),
+        updateCategory,
+        firmwareFileName,
+        binaryHash,
+        info
     )
 }
 
@@ -52,5 +61,6 @@ class FirmwareVersion(
     var hardwareDevice: AccessDevice,
     var updateCategory: UpdateCategory,
     var firmwareFileName: String,
+    var binaryHash: String,
     var info: String?
 )
