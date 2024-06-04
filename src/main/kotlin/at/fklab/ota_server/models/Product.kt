@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.datetime
 
 
-object Users : IntIdTable("users") {
+object Products : IntIdTable("products") {
     val info = text("info").nullable()
 
     val updatedAt = datetime("updatedAt").nullable()
@@ -16,21 +16,21 @@ object Users : IntIdTable("users") {
     val deletedBy = text("deletedBy").nullable()
 }
 
-class UserEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserEntity>(Users)
+class ProductEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<ProductEntity>(Products)
 
-    var info by Users.info
+    var info by Products.info
 
-    var updatedAt by Users.updatedAt
-    var updatedBy by Users.updatedBy
-    var deletedAt by Users.deletedAt
-    var deletedBy by Users.deletedBy
+    var updatedAt by Products.updatedAt
+    var updatedBy by Products.updatedBy
+    var deletedAt by Products.deletedAt
+    var deletedBy by Products.deletedBy
 
-    fun toUser() = Ota_User(
+    fun toProduct() = Product(
         id.value, info
     )
 }
 
-class Ota_User(
+class Product(
     var id: Int?, var info: String?
 )
