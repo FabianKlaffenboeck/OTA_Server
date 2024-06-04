@@ -1,6 +1,6 @@
 package at.fklab.ota_server.plugins
 
-import at.fklab.ota_server.models.AccessDevices
+import at.fklab.ota_server.models.Users
 import at.fklab.ota_server.models.AccessEvents
 import at.fklab.ota_server.models.AccessTokens
 import at.fklab.ota_server.models.FirmwareVersions
@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(AccessDevices, AccessTokens, AccessEvents, FirmwareVersions)
+val tables = listOf(Users, AccessTokens, AccessEvents, FirmwareVersions)
 
 
 fun Application.configureDatabases(
