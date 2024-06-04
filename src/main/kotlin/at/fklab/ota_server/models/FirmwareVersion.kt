@@ -34,7 +34,7 @@ class FirmwareVersionEntity(id: EntityID<Int>) : IntEntity(id) {
     var deletedAt by FirmwareVersions.deletedAt
     var deletedBy by FirmwareVersions.deletedBy
 
-    fun toAccessDevice() = FirmwareVersion(
+    fun toFirmwareVersion() = FirmwareVersion(
         id.value, binaryFileName, associatedProduct?.toProduct(), version, info
     )
 }

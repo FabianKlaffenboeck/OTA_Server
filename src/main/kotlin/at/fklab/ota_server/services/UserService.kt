@@ -20,17 +20,13 @@ class UserService {
         }.firstOrNull()?.toUser()
     }
 
-    fun add(accessDevice: Ota_User): Ota_User {
-        val newDevice = transaction {
-            UserEntity.new {
-                info = accessDevice.info
+    fun add(accessDevice: Ota_User): Ota_User = transaction {
+        UserEntity.new {
+            info = accessDevice.info
 
-                updatedAt = LocalDateTime.now()
-                updatedBy = ""
-            }.toUser()
-        }
-
-        return newDevice
+            updatedAt = LocalDateTime.now()
+            updatedBy = ""
+        }.toUser()
     }
 
     fun update(accessDevice: Ota_User): Ota_User = transaction {

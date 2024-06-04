@@ -27,6 +27,8 @@ fun Application.module() {
     val populateDB: Boolean = System.getenv("POPULTEDB").toBoolean()
     val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
 
+    val filepath: String = System.getenv("FILEPATH") ?: "./files"
+
     val userService = UserService()
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
