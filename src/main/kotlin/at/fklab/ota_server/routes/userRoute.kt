@@ -1,6 +1,6 @@
 package at.fklab.ota_server.routes
 
-import at.fklab.ota_server.models.Ota_User
+import at.fklab.ota_server.models.User
 import at.fklab.ota_server.services.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -21,12 +21,12 @@ fun Route.userRoute(userService: UserService) {
         }
 
         post {
-            val user = call.receive<Ota_User>()
+            val user = call.receive<User>()
             call.respond(userService.add(user))
         }
 
         put {
-            val user = call.receive<Ota_User>()
+            val user = call.receive<User>()
             call.respond(userService.update(user))
         }
 

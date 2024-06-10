@@ -8,6 +8,8 @@ import org.jetbrains.exposed.sql.javatime.datetime
 
 
 object Users : IntIdTable("users") {
+
+    val accessToken = reference("accessToken", AccessTokens)
     val info = text("info").nullable()
 
     val updatedAt = datetime("updatedAt").nullable()
@@ -19,6 +21,7 @@ object Users : IntIdTable("users") {
 class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserEntity>(Users)
 
+    val accessToken by AccessTokenEntity referencedOn Users.accessToken
     var info by Users.info
 
     var updatedAt by Users.updatedAt
@@ -26,11 +29,11 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     var deletedAt by Users.deletedAt
     var deletedBy by Users.deletedBy
 
-    fun toUser() = Ota_User(
-        id.value, info
+    fun toUser() = User(
+        id.value, accessToken.toAccessToken(), info
     )
 }
 
-class Ota_User(
-    var id: Int?, var info: String?
+class User(
+    var id: Int?, var accessToken: AccessToken, var info: String?
 )
