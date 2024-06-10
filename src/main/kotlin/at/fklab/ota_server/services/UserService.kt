@@ -1,6 +1,6 @@
 package at.fklab.ota_server.services
 
-import at.fklab.ota_server.models.Ota_User
+import at.fklab.ota_server.models.User
 import at.fklab.ota_server.models.UserEntity
 import at.fklab.ota_server.models.Users
 import org.jetbrains.exposed.sql.Op
@@ -9,18 +9,18 @@ import java.time.LocalDateTime
 
 class UserService {
 
-    fun getAll(): List<Ota_User> = transaction {
+    fun getAll(): List<User> = transaction {
         val query = Op.build { Users.deletedAt.isNull() }
         UserEntity.find(query).map(UserEntity::toUser)
     }
 
-    fun getById(id: Int): Ota_User? = transaction {
+    fun getById(id: Int): User? = transaction {
         UserEntity.find {
             Users.id eq id
         }.firstOrNull()?.toUser()
     }
 
-    fun add(accessDevice: Ota_User): Ota_User = transaction {
+    fun add(accessDevice: User): User = transaction {
         UserEntity.new {
             info = accessDevice.info
 
@@ -29,7 +29,7 @@ class UserService {
         }.toUser()
     }
 
-    fun update(accessDevice: Ota_User): Ota_User = transaction {
+    fun update(accessDevice: User): User = transaction {
         val notNullId = accessDevice.id!!
 
         UserEntity[notNullId].info = accessDevice.info
