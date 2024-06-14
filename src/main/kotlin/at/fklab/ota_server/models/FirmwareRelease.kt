@@ -8,6 +8,10 @@ import org.jetbrains.exposed.sql.javatime.datetime
 
 
 object FirmwareReleases : IntIdTable("firmwareReleases") {
+    val version = text("version").default("")
+    val buildHash = text("buildHash").default("")
+    val pipeLineId = text("pipeLineId").default("")
+    val commitHash = text("commitHash").default("")
     val info = text("info").nullable()
     val releaseTrain = reference("releaseTrain", ReleaseTrains)
 
@@ -20,6 +24,10 @@ object FirmwareReleases : IntIdTable("firmwareReleases") {
 class FirmwareReleaseEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<FirmwareReleaseEntity>(FirmwareReleases)
 
+    var version by FirmwareReleases.version
+    var buildHash by FirmwareReleases.buildHash
+    var pipeLineId by FirmwareReleases.pipeLineId
+    var commitHash by FirmwareReleases.commitHash
     var info by FirmwareReleases.info
     var releaseTrain by ReleaseTrainEntity referencedOn FirmwareReleases.releaseTrain
 
@@ -29,14 +37,25 @@ class FirmwareReleaseEntity(id: EntityID<Int>) : IntEntity(id) {
     var deletedBy by FirmwareReleases.deletedBy
 
     fun toFirmwareRelease() = FirmwareRelease(
-        id.value, info
+        id.value, version, buildHash, pipeLineId, commitHash, info
     )
 }
 
-class FirmwareReleaseInput(
-    var id: Int?, var releaseTrain: ReleaseTrainInput, var info: String?
+class FirmwareRelease(
+    var id: Int?,
+    var version: String,
+    var buildHash: String,
+    var pipeLineId: String,
+    var commitHash: String,
+    var info: String?
 )
 
-class FirmwareRelease(
-    var id: Int?, var info: String?
+class FirmwareReleaseInput(
+    var id: Int?,
+    var version: String,
+    var buildHash: String,
+    var pipeLineId: String,
+    var commitHash: String,
+    var info: String?,
+    var releaseTrain: ReleaseTrainInput,
 )

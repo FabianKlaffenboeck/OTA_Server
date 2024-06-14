@@ -22,6 +22,10 @@ class FirmwareReleaseService {
         FirmwareReleaseEntity.new {
 
             releaseTrain = firmwareRelease.releaseTrain.id?.let { ReleaseTrainEntity.findById(it) }!!
+            version = firmwareRelease.version
+            buildHash = firmwareRelease.buildHash
+            pipeLineId = firmwareRelease.pipeLineId
+            commitHash = firmwareRelease.commitHash
             info = firmwareRelease.info
 
             updatedAt = LocalDateTime.now()
