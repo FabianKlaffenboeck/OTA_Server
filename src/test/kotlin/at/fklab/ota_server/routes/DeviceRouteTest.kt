@@ -22,9 +22,7 @@ class DeviceRouteTest : ApiTestUtils() {
             initDB()
             populateDB()
         }
-        val response = client.get("$apiRoute/devices") {
-//            header("Authorization", authToken)
-        }
+        val response = client.get("$apiRoute/devices")
 
         assertEquals(HttpStatusCode.OK, response.status)
         println(response.bodyAsText())
