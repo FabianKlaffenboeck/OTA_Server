@@ -5,8 +5,12 @@ import at.fklab.ota_server.plugins.configureHTTP
 import at.fklab.ota_server.plugins.configureSecurity
 import at.fklab.ota_server.plugins.configureSerialization
 import at.fklab.ota_server.routes.deviceRoute
+import at.fklab.ota_server.routes.firmwareReleasesRoute
+import at.fklab.ota_server.routes.releaseTrainsRoute
 import at.fklab.ota_server.routes.userRoute
 import at.fklab.ota_server.services.DeviceService
+import at.fklab.ota_server.services.FirmwareReleaseService
+import at.fklab.ota_server.services.ReleaseTrainService
 import at.fklab.ota_server.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -33,6 +37,8 @@ fun Application.module() {
 
     val userService = UserService()
     val deviceService = DeviceService()
+    val releaseTrainService = ReleaseTrainService()
+    val firmwareReleaseService = FirmwareReleaseService()
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
 
@@ -47,6 +53,8 @@ fun Application.module() {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
             userRoute(userService)
             deviceRoute(deviceService)
+            releaseTrainsRoute(releaseTrainService)
+            firmwareReleasesRoute(firmwareReleaseService)
         }
     }
 }

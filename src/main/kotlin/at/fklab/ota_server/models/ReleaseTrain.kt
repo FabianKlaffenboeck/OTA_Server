@@ -33,6 +33,10 @@ class ReleaseTrainEntity(id: EntityID<Int>) : IntEntity(id) {
     )
 }
 
+class ReleaseTrainInput(
+    var id: Int?, var info: String?
+)
+
 class ReleaseTrain(
-    var id: Int?, var firmwareReleases: List<FirmwareRelease>, var info: String?
+    var id: Int?, var firmwareReleases: List<FirmwareRelease>?, var info: String?
 )
