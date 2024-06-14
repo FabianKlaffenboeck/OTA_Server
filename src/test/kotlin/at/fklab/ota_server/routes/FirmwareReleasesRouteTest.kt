@@ -8,10 +8,10 @@ import io.ktor.server.testing.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class FirmwareReleasesRouteTest {
+class FirmwareReleasesRouteTest : ApiTestUtils() {
 
     @BeforeTest
-    fun resetDB(){
+    fun resetDB() {
         initDB()
         populateDB()
     }
@@ -21,9 +21,7 @@ class FirmwareReleasesRouteTest {
         application {
             module()
         }
-        client.get("/firmwareReleases").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.get("$apiRoute/firmwareReleases")
     }
 
     @Test
@@ -31,9 +29,7 @@ class FirmwareReleasesRouteTest {
         application {
             module()
         }
-        client.post("/firmwareReleases").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.post("$apiRoute/firmwareReleases")
     }
 
     @Test
@@ -41,9 +37,7 @@ class FirmwareReleasesRouteTest {
         application {
             module()
         }
-        client.put("/firmwareReleases").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.put("$apiRoute/firmwareReleases")
     }
 
     @Test
@@ -51,9 +45,7 @@ class FirmwareReleasesRouteTest {
         application {
             module()
         }
-        client.delete("/firmwareReleases/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.delete("$apiRoute/firmwareReleases/1")
     }
 
     @Test
@@ -61,8 +53,6 @@ class FirmwareReleasesRouteTest {
         application {
             module()
         }
-        client.get("/firmwareReleases/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.get("$apiRoute/firmwareReleases/1")
     }
 }

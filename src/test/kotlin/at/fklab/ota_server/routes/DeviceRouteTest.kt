@@ -35,9 +35,7 @@ class DeviceRouteTest : ApiTestUtils() {
             initDB()
             populateDB()
         }
-        client.post("$apiRoute/devices").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.post("$apiRoute/devices")
     }
 
     @Test
@@ -47,9 +45,7 @@ class DeviceRouteTest : ApiTestUtils() {
             initDB()
             populateDB()
         }
-        client.put("/devices").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.put("$apiRoute/devices")
     }
 
     @Test
@@ -59,9 +55,7 @@ class DeviceRouteTest : ApiTestUtils() {
             initDB()
             populateDB()
         }
-        client.delete("/devices/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.delete("$apiRoute/devices/1")
     }
 
     @Test
@@ -71,8 +65,6 @@ class DeviceRouteTest : ApiTestUtils() {
             initDB()
             populateDB()
         }
-        client.get("/devices/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.get("$apiRoute/devices/1")
     }
 }

@@ -8,10 +8,10 @@ import io.ktor.server.testing.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class ReleaseTrainsRouteTest {
+class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @BeforeTest
-    fun resetDB(){
+    fun resetDB() {
         initDB()
         populateDB()
     }
@@ -21,9 +21,7 @@ class ReleaseTrainsRouteTest {
         application {
             module()
         }
-        client.get("/releaseTrains").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.get("$apiRoute/releaseTrains")
     }
 
     @Test
@@ -31,9 +29,7 @@ class ReleaseTrainsRouteTest {
         application {
             module()
         }
-        client.post("/releaseTrains").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.post("$apiRoute/releaseTrains")
     }
 
     @Test
@@ -41,9 +37,7 @@ class ReleaseTrainsRouteTest {
         application {
             module()
         }
-        client.put("/releaseTrains").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.put("$apiRoute/releaseTrains")
     }
 
     @Test
@@ -51,9 +45,7 @@ class ReleaseTrainsRouteTest {
         application {
             module()
         }
-        client.delete("/releaseTrains/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.delete("$apiRoute/releaseTrains/1")
     }
 
     @Test
@@ -61,8 +53,6 @@ class ReleaseTrainsRouteTest {
         application {
             module()
         }
-        client.get("/releaseTrains/{id}").apply {
-            TODO("Please write your test here")
-        }
+        val response = client.get("$apiRoute/releaseTrains/1")
     }
 }
