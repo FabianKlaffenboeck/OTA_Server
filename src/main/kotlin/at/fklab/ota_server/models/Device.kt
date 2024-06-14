@@ -21,7 +21,7 @@ object Devices : IntIdTable("devices") {
 class DeviceEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<DeviceEntity>(Devices)
 
-    val accessToken by AccessTokenEntity referencedOn Devices.accessToken
+    var accessToken by AccessTokenEntity referencedOn Devices.accessToken
     var info by Devices.info
 
     var updatedAt by Devices.updatedAt

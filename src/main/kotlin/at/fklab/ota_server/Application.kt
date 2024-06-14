@@ -4,7 +4,9 @@ import at.fklab.ota_server.plugins.configureDatabases
 import at.fklab.ota_server.plugins.configureHTTP
 import at.fklab.ota_server.plugins.configureSecurity
 import at.fklab.ota_server.plugins.configureSerialization
+import at.fklab.ota_server.routes.deviceRoute
 import at.fklab.ota_server.routes.userRoute
+import at.fklab.ota_server.services.DeviceService
 import at.fklab.ota_server.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -30,6 +32,7 @@ fun Application.module() {
     val filepath: String = System.getenv("FILEPATH") ?: "./files"
 
     val userService = UserService()
+    val deviceService = DeviceService()
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
 
@@ -43,6 +46,7 @@ fun Application.module() {
         route("/api/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
             userRoute(userService)
+            deviceRoute(deviceService)
         }
     }
 }
