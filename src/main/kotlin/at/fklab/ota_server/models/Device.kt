@@ -34,6 +34,6 @@ class DeviceEntity(id: EntityID<Int>) : IntEntity(id) {
     )
 }
 
-class Device(
+data class Device(
     var id: Int?, var accessToken: AccessToken, var info: String?
 )

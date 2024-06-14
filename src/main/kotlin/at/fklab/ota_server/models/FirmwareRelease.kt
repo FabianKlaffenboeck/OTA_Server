@@ -41,7 +41,7 @@ class FirmwareReleaseEntity(id: EntityID<Int>) : IntEntity(id) {
     )
 }
 
-class FirmwareRelease(
+data class FirmwareRelease(
     var id: Int?,
     var version: String,
     var buildHash: String,
@@ -50,7 +50,7 @@ class FirmwareRelease(
     var info: String?
 )
 
-class FirmwareReleaseInput(
+data class FirmwareReleaseInput(
     var id: Int?,
     var version: String,
     var buildHash: String,
