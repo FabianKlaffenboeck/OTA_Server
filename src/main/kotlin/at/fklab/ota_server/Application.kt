@@ -47,9 +47,11 @@ fun Application.module() {
     configureSecurity()
 
     val apiVersion = "v0.0.1"
+    val restRoute = "rest"
+
 
     routing {
-        route("/api/$apiVersion") {
+        route("/$restRoute/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
             userRoute(userService)
             deviceRoute(deviceService)
