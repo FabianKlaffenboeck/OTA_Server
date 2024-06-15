@@ -10,11 +10,11 @@ import kotlin.test.Test
 
 class ReleaseTrainsRouteTest : ApiTestUtils() {
 
-    @BeforeTest
-    fun resetDB() {
-        initDB()
-        populateDB()
-    }
+//    @BeforeTest
+//    fun resetDB() {
+//        initDB()
+//        populateDB()
+//    }
 
     @Test
     fun testGetReleasetrains() = testApplication {

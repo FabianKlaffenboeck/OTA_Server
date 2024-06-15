@@ -3,7 +3,6 @@ package at.fklab.ota_server.routes
 import at.fklab.ota_server.development.sampleUsers
 import at.fklab.ota_server.models.User
 import at.fklab.ota_server.module
-import at.fklab.ota_server.plugins.configureDatabases
 import com.google.gson.Gson
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -12,20 +11,11 @@ import io.ktor.server.testing.*
 import junit.framework.TestCase.assertEquals
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.junit.Before
 import kotlin.reflect.jvm.javaType
 import kotlin.reflect.typeOf
 import kotlin.test.Test
 
 class UserRouteTest : ApiTestUtils() {
-
-
-    @Before
-    fun resetDB() = testApplication {
-        application {
-            configureDatabases("jdbc:sqlite:TestDB", "root", "", true, true, true)
-        }
-    }
 
     @Test
     fun testGetUsers() = testApplication {

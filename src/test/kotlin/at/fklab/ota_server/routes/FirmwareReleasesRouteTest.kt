@@ -10,11 +10,11 @@ import kotlin.test.Test
 
 class FirmwareReleasesRouteTest : ApiTestUtils() {
 
-    @BeforeTest
-    fun resetDB() {
-        initDB()
-        populateDB()
-    }
+//    @BeforeTest
+//    fun resetDB() {
+//        initDB()
+//        populateDB()
+//    }
 
     @Test
     fun testGetFirmwarereleases() = testApplication {
@@ -54,5 +54,13 @@ class FirmwareReleasesRouteTest : ApiTestUtils() {
             module()
         }
         val response = client.get("$apiRoute/firmwareReleases/1")
+    }
+
+    @Test
+    fun testGetFirmwarereleasesIdDownload() = testApplication {
+        application {
+            module()
+        }
+        val response = client.get("$apiRoute/firmwareReleases/1/download")
     }
 }

@@ -1,10 +1,7 @@
 package at.fklab.ota_server.routes
 
-import at.fklab.ota_server.models.FirmwareRelease
 import at.fklab.ota_server.models.FirmwareReleaseInput
-import at.fklab.ota_server.models.User
 import at.fklab.ota_server.services.FirmwareReleaseService
-import at.fklab.ota_server.services.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -21,6 +18,10 @@ fun Route.firmwareReleasesRoute(firmwareReleaseService: FirmwareReleaseService) 
             val id: Int = (call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)).toInt()
             val firmwareRelease = firmwareReleaseService.getById(id) ?: return@get call.respond(HttpStatusCode.NotFound)
             call.respond(firmwareRelease)
+        }
+
+        get("/{id}/download") {
+            call.respond(HttpStatusCode.NotImplemented)
         }
 
         post {

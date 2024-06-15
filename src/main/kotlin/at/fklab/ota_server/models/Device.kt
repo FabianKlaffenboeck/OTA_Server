@@ -1,5 +1,6 @@
 package at.fklab.ota_server.models
 
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -34,6 +35,7 @@ class DeviceEntity(id: EntityID<Int>) : IntEntity(id) {
     )
 }
 
+@Serializable
 data class Device(
     var id: Int?, var accessToken: AccessToken, var info: String?
 )

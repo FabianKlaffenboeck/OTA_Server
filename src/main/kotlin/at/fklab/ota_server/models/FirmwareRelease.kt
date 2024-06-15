@@ -1,5 +1,6 @@
 package at.fklab.ota_server.models
 
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -41,6 +42,7 @@ class FirmwareReleaseEntity(id: EntityID<Int>) : IntEntity(id) {
     )
 }
 
+@Serializable
 data class FirmwareRelease(
     var id: Int?,
     var version: String,
@@ -50,6 +52,7 @@ data class FirmwareRelease(
     var info: String?
 )
 
+@Serializable
 data class FirmwareReleaseInput(
     var id: Int?,
     var version: String,
