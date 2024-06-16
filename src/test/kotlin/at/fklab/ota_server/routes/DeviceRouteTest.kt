@@ -8,7 +8,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -43,8 +42,8 @@ class DeviceRouteTest : ApiTestUtils() {
 
         val responseDevice: Device = Gson().fromJson(response.bodyAsText())
 
-        assertEquals(3, responseDevice.id)
-        assertEquals(sampleDevice.info, responseDevice)
+        assertEquals(sampleDevices.size + 1, responseDevice.id)
+        assertEquals(sampleDevice.info, responseDevice.info)
 
     }
 
@@ -78,7 +77,7 @@ class DeviceRouteTest : ApiTestUtils() {
         val response = client.get("$apiRoute/devices")
         val devices: List<Device> = Gson().fromJson(response.bodyAsText())
 
-        assertEquals(1, devices.size)
+        assertEquals(sampleDevices.size - 1, devices.size)
 
     }
 

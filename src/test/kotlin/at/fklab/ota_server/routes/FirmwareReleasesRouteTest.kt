@@ -5,6 +5,7 @@ import at.fklab.ota_server.models.FirmwareRelease
 import at.fklab.ota_server.module
 import com.google.gson.Gson
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
@@ -91,7 +92,7 @@ class FirmwareReleasesRouteTest : ApiTestUtils() {
         assertEquals(1, firmwareRelease.id)
     }
 
-//    @Test
+    //    @Test
 //    fun testGetFirmwarereleasesIdBinary() = testApplication {
 //        application {
 //            module()
@@ -99,11 +100,42 @@ class FirmwareReleasesRouteTest : ApiTestUtils() {
 //        client.get("$apiRoute/firmwareReleases/1/binary")
 //    }
 //
-//    @Test
-//    fun testPostFirmwarereleasesIdBinary() = testApplication {
-//        application {
-//            module()
-//        }
-//        client.post("$apiRoute/firmwareReleases/1/binary")
-//    }
+    @Test
+    fun testPostFirmwarereleasesIdBinary() = testApplication {
+        application {
+            module()
+        }
+
+
+        val response = client.post("$apiRoute/firmwareReleases/1/binary") {
+            val fileBytes = javaClass.classLoader.getResource("firmware-latest.hex")!!.readBytes()
+            setBody(
+                MultiPartFormDataContent(
+                    formData {
+                        append("file", fileBytes, Headers.build {
+                            append(HttpHeaders.ContentType, "text/plain")
+                            append(HttpHeaders.ContentDisposition, "filename=\"firmware-latest.hex\"")
+                        })
+                    },
+                )
+            )
+        }
+
+        assertEquals(HttpStatusCode.OK, response.status)
+    }
+
+    @Test
+    fun testPostFirmwarereleasesIdBinaryEmtpty() = testApplication {
+        application {
+            module()
+        }
+
+
+        val response = client.post("$apiRoute/firmwareReleases/1/binary") {
+            val fileBytes = javaClass.classLoader.getResource("firmware-latest.hex")!!.readBytes()
+            setBody(MultiPartFormDataContent(formData { }))
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+    }
 }

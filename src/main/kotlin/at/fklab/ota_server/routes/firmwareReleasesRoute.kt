@@ -53,14 +53,13 @@ fun Route.firmwareReleasesRoute(firmwareReleaseService: FirmwareReleaseService, 
 
             val release = firmwareReleaseService.getById(id) ?: return@post call.respond(HttpStatusCode.NotFound)
 
-            var hasBadFile = false
+            var hasBadFile = true
 
             multipart.forEachPart { part ->
                 if (part is PartData.FileItem) {
 
-                    if ((part.originalFileName == null) || (part.originalFileName == "")) {
-                        hasBadFile = true
-                    } else {
+                    if (!((part.originalFileName == null) || (part.originalFileName == ""))) {
+                        hasBadFile = false
                         fileService.save(part.streamProvider(), release)
                     }
 
