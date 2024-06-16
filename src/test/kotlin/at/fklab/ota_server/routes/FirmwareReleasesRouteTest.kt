@@ -108,7 +108,7 @@ class FirmwareReleasesRouteTest : ApiTestUtils() {
 
 
         val response = client.post("$apiRoute/firmwareReleases/1/binary") {
-            val fileBytes = this::class.java.classLoader.getResource("firmware-latest.hex")!!.readBytes()
+            val fileBytes = javaClass.classLoader.getResource("firmware-latest.hex")!!.readBytes()
             setBody(
                 MultiPartFormDataContent(
                     formData {
@@ -129,6 +129,7 @@ class FirmwareReleasesRouteTest : ApiTestUtils() {
         application {
             module()
         }
+
 
         val response = client.post("$apiRoute/firmwareReleases/1/binary") {
             setBody(MultiPartFormDataContent(formData { }))
