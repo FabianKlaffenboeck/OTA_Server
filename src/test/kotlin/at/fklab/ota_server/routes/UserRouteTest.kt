@@ -11,8 +11,6 @@ import io.ktor.server.testing.*
 import junit.framework.TestCase.assertEquals
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlin.reflect.jvm.javaType
-import kotlin.reflect.typeOf
 import kotlin.test.Test
 
 class UserRouteTest : ApiTestUtils() {
@@ -24,9 +22,10 @@ class UserRouteTest : ApiTestUtils() {
         }
 
         val response = client.get("$apiRoute/users")
-        val users: List<User> = Gson().fromJson(response.bodyAsText(), typeOf<List<User>>().javaType)
 
-        assertEquals(2, users.size)
+        val users: List<User> = Gson().fromJson(response.bodyAsText())
+
+        assertEquals(sampleUsers.size, users.size)
     }
 
     @Test
@@ -42,7 +41,7 @@ class UserRouteTest : ApiTestUtils() {
             setBody(Json.encodeToString(sampleUser))
         }
 
-        val responseUser: User = Gson().fromJson(response.bodyAsText(), User::class.java)
+        val responseUser: User = Gson().fromJson(response.bodyAsText())
 
         assertEquals(3, responseUser.id)
         assertEquals(sampleUser.info, responseUser.info)
@@ -61,7 +60,7 @@ class UserRouteTest : ApiTestUtils() {
             setBody(Json.encodeToString(sampleUser))
         }
 
-        val responseUser: User = Gson().fromJson(response.bodyAsText(), User::class.java)
+        val responseUser: User = Gson().fromJson(response.bodyAsText())
 
         assertEquals(1, responseUser.id)
         assertEquals(sampleUser.info, responseUser.info)
@@ -75,9 +74,11 @@ class UserRouteTest : ApiTestUtils() {
         client.delete("$apiRoute/users/1")
 
         val response = client.get("$apiRoute/users")
-        val users: List<User> = Gson().fromJson(response.bodyAsText(), typeOf<List<User>>().javaType)
 
-        assertEquals(1, users.size)
+        val users: List<User> = Gson().fromJson(response.bodyAsText())
+
+
+        assertEquals(sampleUsers.size - 1, users.size)
     }
 
     @Test
@@ -87,7 +88,7 @@ class UserRouteTest : ApiTestUtils() {
         }
         val response = client.get("$apiRoute/users/1")
 
-        val user: User = Gson().fromJson(response.bodyAsText(), User::class.java)
+        val user: User = Gson().fromJson(response.bodyAsText())
 
         assertEquals(1, user.id)
     }

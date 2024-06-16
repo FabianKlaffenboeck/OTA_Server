@@ -11,8 +11,6 @@ import io.ktor.server.testing.*
 import junit.framework.TestCase.assertEquals
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlin.reflect.jvm.javaType
-import kotlin.reflect.typeOf
 import kotlin.test.Test
 
 class ReleaseTrainsRouteTest : ApiTestUtils() {
@@ -24,8 +22,7 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
         }
         val response = client.get("$apiRoute/releaseTrains")
 
-        val releaseTrains: List<ReleaseTrain> =
-            Gson().fromJson(response.bodyAsText(), typeOf<List<ReleaseTrain>>().javaType)
+        val releaseTrains: List<ReleaseTrain> = Gson().fromJson(response.bodyAsText())
 
         assertEquals(5, releaseTrains.size)
     }
@@ -43,7 +40,7 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
             setBody(Json.encodeToString(sampleReleaseTest))
         }
 
-        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
 
         assertEquals(6, responseReleaseTest.id)
         assertEquals(sampleReleaseTest.info, responseReleaseTest.info)
@@ -62,7 +59,7 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
             setBody(Json.encodeToString(sampleReleaseTest))
         }
 
-        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
 
         assertEquals(1, responseReleaseTest.id)
         assertEquals(sampleReleaseTest.info, responseReleaseTest.info)
@@ -78,8 +75,7 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
         val response = client.get("$apiRoute/releaseTrains")
 
-        val releaseTrains: List<ReleaseTrain> =
-            Gson().fromJson(response.bodyAsText(), typeOf<List<ReleaseTrain>>().javaType)
+        val releaseTrains: List<ReleaseTrain> = Gson().fromJson(response.bodyAsText())
 
         assertEquals(4, releaseTrains.size)
     }
@@ -91,7 +87,7 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
         }
         val response = client.get("$apiRoute/releaseTrains/1")
 
-        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
 
         assertEquals(1, responseReleaseTest.id)
     }
