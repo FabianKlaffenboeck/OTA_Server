@@ -8,10 +8,7 @@ import at.fklab.ota_server.routes.deviceRoute
 import at.fklab.ota_server.routes.firmwareReleasesRoute
 import at.fklab.ota_server.routes.releaseTrainsRoute
 import at.fklab.ota_server.routes.userRoute
-import at.fklab.ota_server.services.DeviceService
-import at.fklab.ota_server.services.FirmwareReleaseService
-import at.fklab.ota_server.services.ReleaseTrainService
-import at.fklab.ota_server.services.UserService
+import at.fklab.ota_server.services.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -33,12 +30,13 @@ fun Application.module() {
     val populateDB: Boolean = System.getenv("POPULTEDB").toBoolean()
     val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
 
-    val filepath: String = System.getenv("FILEPATH") ?: "./files"
+    val filepath: String = System.getenv("FILEPATH") ?: "./files/"
 
     val userService = UserService()
     val deviceService = DeviceService()
     val releaseTrainService = ReleaseTrainService()
     val firmwareReleaseService = FirmwareReleaseService()
+    val fileService = FileService(filepath)
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
 
@@ -56,7 +54,7 @@ fun Application.module() {
             userRoute(userService)
             deviceRoute(deviceService)
             releaseTrainsRoute(releaseTrainService)
-            firmwareReleasesRoute(firmwareReleaseService)
+            firmwareReleasesRoute(firmwareReleaseService,fileService)
         }
     }
 }
