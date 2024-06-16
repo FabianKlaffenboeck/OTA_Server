@@ -30,13 +30,12 @@ fun Application.module() {
     val populateDB: Boolean = System.getenv("POPULTEDB").toBoolean()
     val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
 
-    val filepath: String = System.getenv("FILEPATH") ?: "./files/"
 
     val userService = UserService()
     val deviceService = DeviceService()
     val releaseTrainService = ReleaseTrainService()
     val firmwareReleaseService = FirmwareReleaseService()
-    val fileService = FileService(filepath)
+    val fileService = FileService("/files")
 
     configureDatabases(dbUrl, dbUser, dbPW, updateSchema, initDB, populateDB)
 
