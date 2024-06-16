@@ -1,20 +1,21 @@
 package at.fklab.ota_server.routes
 
+import at.fklab.ota_server.development.sampleReleaseTrains
+import at.fklab.ota_server.models.ReleaseTrain
 import at.fklab.ota_server.module
-import at.fklab.ota_server.plugins.initDB
-import at.fklab.ota_server.plugins.populateDB
+import com.google.gson.Gson
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.server.testing.*
-import kotlin.test.BeforeTest
+import junit.framework.TestCase.assertEquals
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlin.reflect.jvm.javaType
+import kotlin.reflect.typeOf
 import kotlin.test.Test
 
 class ReleaseTrainsRouteTest : ApiTestUtils() {
-
-//    @BeforeTest
-//    fun resetDB() {
-//        initDB()
-//        populateDB()
-//    }
 
     @Test
     fun testGetReleasetrains() = testApplication {
@@ -22,6 +23,11 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
             module()
         }
         val response = client.get("$apiRoute/releaseTrains")
+
+        val releaseTrains: List<ReleaseTrain> =
+            Gson().fromJson(response.bodyAsText(), typeOf<List<ReleaseTrain>>().javaType)
+
+        assertEquals(5, releaseTrains.size)
     }
 
     @Test
@@ -29,7 +35,18 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
         application {
             module()
         }
-        val response = client.post("$apiRoute/releaseTrains")
+
+        val sampleReleaseTest = sampleReleaseTrains[0].copy(id = null)
+
+        val response = client.post("$apiRoute/releaseTrains") {
+            contentType(ContentType.Application.Json)
+            setBody(Json.encodeToString(sampleReleaseTest))
+        }
+
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+
+        assertEquals(6, responseReleaseTest.id)
+        assertEquals(sampleReleaseTest.info, responseReleaseTest.info)
     }
 
     @Test
@@ -37,7 +54,19 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
         application {
             module()
         }
-        val response = client.put("$apiRoute/releaseTrains")
+
+        val sampleReleaseTest = sampleReleaseTrains[0].copy(info = "coolInfo01")
+
+        val response = client.put("$apiRoute/releaseTrains") {
+            contentType(ContentType.Application.Json)
+            setBody(Json.encodeToString(sampleReleaseTest))
+        }
+
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+
+        assertEquals(1, responseReleaseTest.id)
+        assertEquals(sampleReleaseTest.info, responseReleaseTest.info)
+
     }
 
     @Test
@@ -45,7 +74,14 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
         application {
             module()
         }
-        val response = client.delete("$apiRoute/releaseTrains/1")
+        client.delete("$apiRoute/releaseTrains/1")
+
+        val response = client.get("$apiRoute/releaseTrains")
+
+        val releaseTrains: List<ReleaseTrain> =
+            Gson().fromJson(response.bodyAsText(), typeOf<List<ReleaseTrain>>().javaType)
+
+        assertEquals(4, releaseTrains.size)
     }
 
     @Test
@@ -54,5 +90,9 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
             module()
         }
         val response = client.get("$apiRoute/releaseTrains/1")
+
+        val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText(), ReleaseTrain::class.java)
+
+        assertEquals(1, responseReleaseTest.id)
     }
 }
