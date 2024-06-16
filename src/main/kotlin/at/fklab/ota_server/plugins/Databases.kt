@@ -1,15 +1,14 @@
-package at.fklab.plugins
+package at.fklab.ota_server.plugins
 
-import at.fklab.model.AccessDevices
-import at.fklab.model.AccessEvents
-import at.fklab.model.AccessTokens
-import at.fklab.model.FirmwareVersions
+import at.fklab.ota_server.development.*
+import at.fklab.ota_server.models.*
+import at.fklab.ota_server.services.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(AccessDevices, AccessTokens, AccessEvents, FirmwareVersions)
+val tables = listOf(Users, Devices, FirmwareReleases, ReleaseTrains)
 
 
 fun Application.configureDatabases(
@@ -53,5 +52,19 @@ fun updateTables() {
 }
 
 fun populateDB() {
-
+    for (token in sampleAccessTokens) {
+        TokenService().add(token)
+    }
+    for (user in sampleUsers) {
+        UserService().add(user)
+    }
+    for (device in sampleDevices) {
+        DeviceService().add(device)
+    }
+    for (releaseTrain in sampleReleaseTrains) {
+        ReleaseTrainService().add(releaseTrain)
+    }
+    for (firmwareRelease in sampleFirmwareReleases) {
+        FirmwareReleaseService().add(firmwareRelease)
+    }
 }

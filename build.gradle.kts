@@ -10,11 +10,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
 }
 
-group = "at.fklab"
+group = "at.fklab.ota_server"
 version = "0.0.1"
 
 application {
-    mainClass.set("at.fklab.ApplicationKt")
+    mainClass.set("at.fklab.ota_server.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -31,6 +31,9 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
+    implementation("io.ktor:ktor-serialization-gson:$ktor_version")
+
 
     implementation("io.ktor:ktor-server-swagger:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
@@ -48,6 +51,9 @@ dependencies {
 
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+
     testImplementation("io.ktor:ktor-server-tests-jvm")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.10")
 }

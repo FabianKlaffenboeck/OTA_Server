@@ -1,4 +1,4 @@
-package at.fklab.plugins
+package at.fklab.ota_server.plugins
 
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
