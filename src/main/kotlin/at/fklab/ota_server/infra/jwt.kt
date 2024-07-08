@@ -1,0 +1,43 @@
+package at.fklab.ota_server.infra
+
+import at.fklab.ota_server.models.User
+import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
+import com.auth0.jwt.algorithms.Algorithm
+import java.util.*
+
+
+data class Token(val token: String)
+
+object JwtConfig {
+    const val issuer = "fklab.at"
+    private const val secret = "zAP5MBA4B4Ijz0MZaS48" //FIXME this need to be a config
+    private const val validityInMs = 3_600_000 * 10 // 10 hours //FIXME this need sto be configurable
+    private val algorithm = Algorithm.HMAC512(secret)
+
+    val verifier: JWTVerifier = JWT.require(algorithm).withIssuer(issuer).build()
+
+    fun makeToken(user: User): String =
+        JWT.create().withSubject("Authentication").withIssuer(issuer).withClaim("id", user.id)
+            .withClaim("login", user.login).withClaim("description", user.description)
+            .withArrayClaim("names", arrayOf<String>(user.firstname, user.lastname)).withExpiresAt(getExpiration())
+            .sign(algorithm)
+
+    private fun getExpiration() = Date(System.currentTimeMillis() + validityInMs)
+
+}
+
+//fun JWTAuthenticationProvider.customConfigure() {
+//    verifier(JwtConfig.verifier)
+//    realm = JwtConfig.issuer
+//    validate {
+//        with(it.payload) {
+//            val login = getClaim("login").isNull
+//            val id = getClaim("id").isNull
+//            if (login || id)
+//                null
+//            else
+//                JWTPrincipal(it.payload)
+//        }
+//    }
+//}

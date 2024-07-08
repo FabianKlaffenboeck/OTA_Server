@@ -1,14 +1,20 @@
-package at.fklab.ota_server.plugins
+package at.fklab.ota_server.infra
 
-import at.fklab.ota_server.development.*
-import at.fklab.ota_server.models.*
-import at.fklab.ota_server.services.*
+import at.fklab.ota_server.development.sampleFirmwareReleases
+import at.fklab.ota_server.development.sampleReleaseTrains
+import at.fklab.ota_server.development.sampleUsers
+import at.fklab.ota_server.models.FirmwareReleases
+import at.fklab.ota_server.models.ReleaseTrains
+import at.fklab.ota_server.models.Users
+import at.fklab.ota_server.services.FirmwareReleaseService
+import at.fklab.ota_server.services.ReleaseTrainService
+import at.fklab.ota_server.services.UserService
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(Users, Devices, FirmwareReleases, ReleaseTrains)
+val tables = listOf(Users, FirmwareReleases, ReleaseTrains)
 
 
 fun Application.configureDatabases(
@@ -52,14 +58,8 @@ fun updateTables() {
 }
 
 fun populateDB() {
-    for (token in sampleAccessTokens) {
-        TokenService().add(token)
-    }
     for (user in sampleUsers) {
         UserService().add(user)
-    }
-    for (device in sampleDevices) {
-        DeviceService().add(device)
     }
     for (releaseTrain in sampleReleaseTrains) {
         ReleaseTrainService().add(releaseTrain)

@@ -1,38 +1,36 @@
 package at.fklab.ota_server
 
-import at.fklab.ota_server.plugins.configureDatabases
-import at.fklab.ota_server.plugins.configureHTTP
-import at.fklab.ota_server.plugins.configureSecurity
-import at.fklab.ota_server.plugins.configureSerialization
-import at.fklab.ota_server.routes.deviceRoute
+import at.fklab.ota_server.infra.configureDatabases
+import at.fklab.ota_server.infra.configureHTTP
+import at.fklab.ota_server.infra.configureSerialization
 import at.fklab.ota_server.routes.firmwareReleasesRoute
 import at.fklab.ota_server.routes.releaseTrainsRoute
 import at.fklab.ota_server.routes.userRoute
-import at.fklab.ota_server.services.*
+import at.fklab.ota_server.services.FileService
+import at.fklab.ota_server.services.FirmwareReleaseService
+import at.fklab.ota_server.services.ReleaseTrainService
+import at.fklab.ota_server.services.UserService
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module).start(wait = true)
+fun main(args: Array<String>) {
+    EngineMain.main(args)
 }
 
 fun Application.module() {
 
-    val dbUrl: String = System.getenv("DBURL") ?: "jdbc:sqlite:TestDB"
+    val dbUrl: String = environment.config.property("dataBase.DBURL").getString()
 
-    val dbUser: String = System.getenv("DBUSER") ?: "root"
-    val dbPW: String = System.getenv("DBPW") ?: ""
+    val dbUser: String = environment.config.property("dataBase.DBUSER").getString()
+    val dbPW: String = environment.config.property("dataBase.DBPW").getString()
 
-    val initDB: Boolean = System.getenv("INITDB").toBoolean()
-    val populateDB: Boolean = System.getenv("POPULTEDB").toBoolean()
-    val updateSchema: Boolean = System.getenv("UPDATESCHEMA").toBoolean()
-
+    val initDB: Boolean = environment.config.property("dataBase.INITDB").getString().toBoolean()
+    val populateDB: Boolean = environment.config.property("dataBase.POPULTEDB").getString().toBoolean()
+    val updateSchema: Boolean = environment.config.property("dataBase.UPDATESCHEMA").getString().toBoolean()
 
     val userService = UserService()
-    val deviceService = DeviceService()
     val releaseTrainService = ReleaseTrainService()
     val firmwareReleaseService = FirmwareReleaseService()
     val fileService = FileService("/files")
@@ -41,7 +39,6 @@ fun Application.module() {
 
     configureHTTP()
     configureSerialization()
-    configureSecurity()
 
     val apiVersion = "v0.0.1"
     val restRoute = "rest"
@@ -51,9 +48,8 @@ fun Application.module() {
         route("/$restRoute/$apiVersion") {
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
             userRoute(userService)
-            deviceRoute(deviceService)
             releaseTrainsRoute(releaseTrainService)
-            firmwareReleasesRoute(firmwareReleaseService,fileService)
+            firmwareReleasesRoute(firmwareReleaseService, fileService)
         }
     }
 }

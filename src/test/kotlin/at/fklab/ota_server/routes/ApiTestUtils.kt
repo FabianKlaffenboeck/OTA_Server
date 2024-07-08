@@ -1,6 +1,6 @@
 package at.fklab.ota_server.routes
 
-import at.fklab.ota_server.plugins.configureDatabases
+import at.fklab.ota_server.infra.configureDatabases
 import com.google.gson.Gson
 import io.ktor.server.testing.*
 import org.junit.Before
