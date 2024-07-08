@@ -9,7 +9,6 @@ import kotlin.io.path.exists
 
 class FileService(val pathToFile: String) {
 
-
     private fun generateFileName(firmwareRelease: FirmwareRelease): String {
         return "${firmwareRelease.version}${firmwareRelease.buildHash}${firmwareRelease.pipeLineId}${firmwareRelease.commitHash}"
     }

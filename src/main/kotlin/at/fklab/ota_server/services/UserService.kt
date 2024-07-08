@@ -3,6 +3,7 @@ package at.fklab.ota_server.services
 import at.fklab.ota_server.models.User
 import at.fklab.ota_server.models.UserEntity
 import at.fklab.ota_server.models.Users
+import io.ktor.server.auth.*
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
@@ -48,4 +49,8 @@ class UserService {
     fun delete(id: Int) = transaction {
         UserEntity[id].deletedAt = LocalDateTime.now()
     }
+
+    fun findUserByCredentials(credential: UserPasswordCredential): User? =
+        getAll().firstOrNull { it.password == credential.password && it.login == credential.name }
+
 }

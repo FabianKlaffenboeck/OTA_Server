@@ -12,6 +12,7 @@ object Users : IntIdTable("users") {
 
 
     val login = varchar("login", 10)
+    val password = varchar("password", 30)
     val firstname = varchar("firstname", 255)
     val lastname = varchar("lastname", 255)
     val description = varchar("description", 255)
@@ -26,6 +27,7 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserEntity>(Users)
 
     var login by Users.login
+    val password by Users.password
     var firstname by Users.firstname
     var lastname by Users.lastname
     var description by Users.description
@@ -36,11 +38,16 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     var deletedBy by Users.deletedBy
 
     fun toUser() = User(
-        id.value, login, firstname, lastname, description
+        id.value, login, password, firstname, lastname, description
     )
 }
 
 @Serializable
 data class User(
-    var id: Int?, val login: String, val firstname: String, val lastname: String, var description: String
+    var id: Int?,
+    val login: String,
+    val password: String,
+    val firstname: String,
+    val lastname: String,
+    var description: String
 )
