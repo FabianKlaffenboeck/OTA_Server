@@ -1,5 +1,6 @@
 package at.fklab.ota_server.routes
 
+import at.fklab.ota_server.infra.AUTH_GENERAL
 import at.fklab.ota_server.models.User
 import at.fklab.ota_server.services.UserService
 import io.ktor.http.*
@@ -10,7 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.userRoute(userService: UserService) {
-    authenticate("auth-jwt") {
+    authenticate(AUTH_GENERAL) {
         route("/users") {
             get {
                 call.respond(userService.getAll())

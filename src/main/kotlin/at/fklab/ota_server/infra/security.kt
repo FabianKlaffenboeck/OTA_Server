@@ -6,9 +6,11 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 
+const val AUTH_GENERAL = "auth-general"
+
 fun Application.configureSecurity(secret: String, issuer: String, audience: String, myRealm: String) {
     install(Authentication) {
-        jwt("auth-jwt") {
+        jwt(AUTH_GENERAL) {
             realm = myRealm
             verifier(JWT.require(Algorithm.HMAC256(secret)).withAudience(audience).withIssuer(issuer).build())
             validate { credential ->

@@ -50,7 +50,4 @@ class UserService {
         UserEntity[id].deletedAt = LocalDateTime.now()
     }
 
-    fun findUserByCredentials(credential: UserPasswordCredential): User? =
-        getAll().firstOrNull { it.password == credential.password && it.login == credential.name }
-
 }

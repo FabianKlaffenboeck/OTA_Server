@@ -1,9 +1,9 @@
 package at.fklab.ota_server.routes
 
 import at.fklab.ota_server.models.User
+import at.fklab.ota_server.services.TokenService
 import at.fklab.ota_server.services.UserService
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -11,19 +11,20 @@ import io.ktor.server.routing.*
 import java.util.*
 
 
-fun Route.login(userService: UserService, secret: String, issuer: String, audience: String, myRealm: String) {
+fun Route.login(
+    userService: UserService,
+    tokenService: TokenService,
+) {
     post("/login") {
         val user = call.receive<User>()
 
-        //TODO ValidateUser
+        val foundUser = userService.getAll().find { userInt -> (userInt.login == user.login) && (userInt.password == user.password) }
 
-        val token = JWT
-            .create()
-            .withAudience(audience)
-            .withIssuer(issuer)
-            .withClaim("username", user.login)
-            .withExpiresAt(Date(System.currentTimeMillis() + 60000))
-            .sign(Algorithm.HMAC256(secret))
+        if(foundUser == null){
+            return@post call.respond(HttpStatusCode.BadRequest)
+        }
+
+        val token = tokenService.generateNewToken()
 
         call.respond(hashMapOf("token" to token))
     }

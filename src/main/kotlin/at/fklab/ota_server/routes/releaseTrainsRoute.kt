@@ -1,5 +1,6 @@
 package at.fklab.ota_server.routes
 
+import at.fklab.ota_server.infra.AUTH_GENERAL
 import at.fklab.ota_server.models.ReleaseTrainInput
 import at.fklab.ota_server.services.ReleaseTrainService
 import io.ktor.http.*
@@ -10,7 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.releaseTrainsRoute(releaseTrainService: ReleaseTrainService) {
-    authenticate("auth-jwt") {
+    authenticate(AUTH_GENERAL) {
         route("/releaseTrains") {
             get {
                 call.respond(releaseTrainService.getAll())
