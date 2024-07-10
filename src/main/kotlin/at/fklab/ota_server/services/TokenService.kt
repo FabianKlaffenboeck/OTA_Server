@@ -18,7 +18,7 @@ class TokenService(
     private val liveTime: Int
 ) {
 
-    fun generateNewToken(): String {
+    fun generateNewToken(userName: String, withExpDate: Boolean = true): String {
 
         val tokenId = transaction {
             TokenEntity.new {
@@ -27,15 +27,25 @@ class TokenService(
             }.id.value
         }
 
-        val token = JWT
-            .create()
-            .withAudience(audience)
-            .withIssuer(issuer)
-            .withClaim("tokenId", tokenId)
-            .withClaim("username", "user.login")
-            .withExpiresAt(Date(System.currentTimeMillis() + (liveTime * 6000)))
-            .sign(Algorithm.HMAC256(secret))
-
+        var token = ""
+        if (withExpDate) {
+            token = JWT
+                .create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("tokenId", tokenId)
+                .withClaim("username", userName)
+                .withExpiresAt(Date(System.currentTimeMillis() + (liveTime * 6000)))
+                .sign(Algorithm.HMAC256(secret))
+        } else {
+            token = JWT
+                .create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("tokenId", tokenId)
+                .withClaim("username", userName)
+                .sign(Algorithm.HMAC256(secret))
+        }
 
         val token64 = Base64.getEncoder().encodeToString(token.toByteArray())
 
