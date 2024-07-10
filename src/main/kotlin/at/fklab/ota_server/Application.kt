@@ -24,12 +24,13 @@ fun Application.module() {
     val issuer = environment.config.property("jwt.issuer").getString()
     val audience = environment.config.property("jwt.audience").getString()
     val myRealm = environment.config.property("jwt.realm").getString()
+    val tokenLifetime = environment.config.property("jwt.tokenLifetime").getString().toInt()
 
     val userService = UserService()
     val releaseTrainService = ReleaseTrainService()
     val firmwareReleaseService = FirmwareReleaseService()
     val fileService = FileService("/files")
-    val tokenService = TokenService(secret, issuer, audience, myRealm)
+    val tokenService = TokenService(secret, issuer, audience, myRealm, tokenLifetime)
 
 
     val apiVersion = "v0.0.1"

@@ -11,7 +11,11 @@ import java.time.LocalDateTime
 import java.util.*
 
 class TokenService(
-    private val secret: String, private val issuer: String, private val audience: String, private val myRealm: String
+    private val secret: String,
+    private val issuer: String,
+    private val audience: String,
+    private val myRealm: String,
+    private val liveTime: Int
 ) {
 
     fun generateNewToken(): String {
@@ -29,10 +33,12 @@ class TokenService(
             .withIssuer(issuer)
             .withClaim("tokenId", tokenId)
             .withClaim("username", "user.login")
-            .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+            .withExpiresAt(Date(System.currentTimeMillis() + (liveTime * 6000)))
             .sign(Algorithm.HMAC256(secret))
 
-        return token
+        val token64 = Base64.getEncoder().encodeToString(token.toByteArray())
+
+        return token64
     }
 
     fun isRevoked(tokenID: Int): Boolean {
@@ -44,6 +50,6 @@ class TokenService(
             return tokenEntity.tokenState == TokenState.REVOKED
         }
 
-        return false
+        return true
     }
 }
