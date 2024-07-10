@@ -29,7 +29,7 @@ fun Application.module() {
     val userService = UserService()
     val releaseTrainService = ReleaseTrainService()
     val firmwareReleaseService = FirmwareReleaseService()
-    val fileService = FileService("/files")
+    val fileService = FileService("/files/")
     val tokenService = TokenService(secret, issuer, audience, myRealm, tokenLifetime)
 
 

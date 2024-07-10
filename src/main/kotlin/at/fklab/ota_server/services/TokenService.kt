@@ -36,6 +36,7 @@ class TokenService(
             .withExpiresAt(Date(System.currentTimeMillis() + (liveTime * 6000)))
             .sign(Algorithm.HMAC256(secret))
 
+
         val token64 = Base64.getEncoder().encodeToString(token.toByteArray())
 
         return token64

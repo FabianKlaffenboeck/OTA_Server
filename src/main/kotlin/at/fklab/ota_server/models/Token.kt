@@ -1,5 +1,6 @@
 package at.fklab.ota_server.models
 
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -28,3 +29,7 @@ class TokenEntity(id: EntityID<Int>) : IntEntity(id) {
 
 }
 
+@Serializable
+data class TokenDTO(
+    var token: String
+)

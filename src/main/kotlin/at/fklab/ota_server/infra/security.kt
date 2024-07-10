@@ -29,7 +29,6 @@ fun Application.configureSecurity(
                 } catch (cause: IllegalArgumentException) {
                     null
                 }
-
             }
 
             verifier(JWT.require(Algorithm.HMAC256(secret)).withAudience(audience).withIssuer(issuer).build())

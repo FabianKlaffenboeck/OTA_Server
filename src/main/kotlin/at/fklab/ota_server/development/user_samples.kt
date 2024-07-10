@@ -17,5 +17,12 @@ val sampleUsers = listOf<User>(
         firstname = "test",
         lastname = "test",
         description = "test",
+    ), User(
+        id = 3,
+        login = "testUser",
+        password = "SuperSecret",
+        firstname = "user",
+        lastname = "Tests",
+        description = "Just a user i use for tests",
     )
 )

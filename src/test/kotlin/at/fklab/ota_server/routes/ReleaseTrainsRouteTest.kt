@@ -2,7 +2,6 @@ package at.fklab.ota_server.routes
 
 import at.fklab.ota_server.development.sampleReleaseTrains
 import at.fklab.ota_server.models.ReleaseTrain
-import at.fklab.ota_server.module
 import com.google.gson.Gson
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -17,10 +16,10 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @Test
     fun testGetReleasetrains() = testApplication {
-        application {
-            module()
+
+        val response = client.get("$apiRoute/releaseTrains") {
+            header("Authorization", "Bearer $testToken")
         }
-        val response = client.get("$apiRoute/releaseTrains")
 
         val releaseTrains: List<ReleaseTrain> = Gson().fromJson(response.bodyAsText())
 
@@ -29,15 +28,13 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @Test
     fun testPostReleasetrains() = testApplication {
-        application {
-            module()
-        }
 
         val sampleReleaseTest = sampleReleaseTrains[0].copy(id = null)
 
         val response = client.post("$apiRoute/releaseTrains") {
             contentType(ContentType.Application.Json)
             setBody(Json.encodeToString(sampleReleaseTest))
+            header("Authorization", "Bearer $testToken")
         }
 
         val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
@@ -48,15 +45,14 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @Test
     fun testPutReleasetrains() = testApplication {
-        application {
-            module()
-        }
+
 
         val sampleReleaseTest = sampleReleaseTrains[0].copy(info = "coolInfo01")
 
         val response = client.put("$apiRoute/releaseTrains") {
             contentType(ContentType.Application.Json)
             setBody(Json.encodeToString(sampleReleaseTest))
+            header("Authorization", "Bearer $testToken")
         }
 
         val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
@@ -68,12 +64,14 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @Test
     fun testDeleteReleasetrainsId() = testApplication {
-        application {
-            module()
-        }
-        client.delete("$apiRoute/releaseTrains/1")
 
-        val response = client.get("$apiRoute/releaseTrains")
+        client.delete("$apiRoute/releaseTrains/1") {
+            header("Authorization", "Bearer $testToken")
+        }
+
+        val response = client.get("$apiRoute/releaseTrains") {
+            header("Authorization", "Bearer $testToken")
+        }
 
         val releaseTrains: List<ReleaseTrain> = Gson().fromJson(response.bodyAsText())
 
@@ -82,10 +80,10 @@ class ReleaseTrainsRouteTest : ApiTestUtils() {
 
     @Test
     fun testGetReleasetrainsId() = testApplication {
-        application {
-            module()
+
+        val response = client.get("$apiRoute/releaseTrains/1") {
+            header("Authorization", "Bearer $testToken")
         }
-        val response = client.get("$apiRoute/releaseTrains/1")
 
         val responseReleaseTest: ReleaseTrain = Gson().fromJson(response.bodyAsText())
 
