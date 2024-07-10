@@ -10,7 +10,6 @@ import org.jetbrains.exposed.sql.javatime.datetime
 
 object Users : IntIdTable("users") {
 
-
     val login = varchar("login", 10).default("")
     val password = varchar("password", 30).default("")
     val firstname = varchar("firstname", 255).default("")
