@@ -3,7 +3,6 @@ package at.fklab.ota_server.services
 import at.fklab.ota_server.models.User
 import at.fklab.ota_server.models.UserEntity
 import at.fklab.ota_server.models.Users
-import io.ktor.server.auth.*
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
@@ -23,7 +22,9 @@ class UserService {
 
     fun add(user: User): User = transaction {
         UserEntity.new {
+
             login = user.login
+            password = user.password
             firstname = user.firstname
             lastname = user.lastname
             description = user.description
@@ -37,6 +38,7 @@ class UserService {
         val notNullId = user.id!!
 
         UserEntity[notNullId].login = user.login
+        UserEntity[notNullId].password = user.password
         UserEntity[notNullId].firstname = user.firstname
         UserEntity[notNullId].lastname = user.lastname
         UserEntity[notNullId].description = user.description

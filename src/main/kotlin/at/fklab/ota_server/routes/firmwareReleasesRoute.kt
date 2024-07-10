@@ -1,6 +1,6 @@
 package at.fklab.ota_server.routes
 
-import at.fklab.ota_server.infra.AUTH_GENERAL
+import at.fklab.ota_server.infra.AUTH_ALL
 import at.fklab.ota_server.models.FirmwareReleaseInput
 import at.fklab.ota_server.services.FileService
 import at.fklab.ota_server.services.FirmwareReleaseService
@@ -13,7 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.firmwareReleasesRoute(firmwareReleaseService: FirmwareReleaseService, fileService: FileService) {
-    authenticate(AUTH_GENERAL) {
+    authenticate(AUTH_ALL) {
         route("/firmwareReleases") {
             get {
                 call.respond(firmwareReleaseService.getAll())

@@ -44,7 +44,7 @@ fun Application.module() {
         environment.config.property("dataBase.UPDATESCHEMA").getString().toBoolean()
     )
 
-    configureSecurity(secret, issuer, audience, myRealm)
+    configureSecurity(tokenService, secret, issuer, audience, myRealm)
     configureHTTP()
     configureSerialization()
 

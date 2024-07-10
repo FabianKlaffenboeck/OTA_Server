@@ -8,7 +8,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.util.*
 
 
 fun Route.login(
@@ -18,10 +17,10 @@ fun Route.login(
     post("/login") {
         val user = call.receive<User>()
 
-        val foundUser = userService.getAll().find { userInt -> (userInt.login == user.login) && (userInt.password == user.password) }
+        val foundUser = userService.getAll().find { (it.login == user.login) && (it.password == user.password) }
 
         if(foundUser == null){
-            return@post call.respond(HttpStatusCode.BadRequest)
+            return@post call.respond(HttpStatusCode.Unauthorized)
         }
 
         val token = tokenService.generateNewToken()

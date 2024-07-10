@@ -1,25 +1,29 @@
 package at.fklab.ota_server.infra
 
+import at.fklab.ota_server.services.TokenService
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 
-const val AUTH_GENERAL = "auth-general"
+const val AUTH_ALL = "auth-general"
 
-fun Application.configureSecurity(secret: String, issuer: String, audience: String, myRealm: String) {
+fun Application.configureSecurity(
+    tokenService: TokenService, secret: String, issuer: String, audience: String, myRealm: String
+) {
     install(Authentication) {
-        jwt(AUTH_GENERAL) {
-            realm = myRealm
+
+        jwt(AUTH_ALL) {
             verifier(JWT.require(Algorithm.HMAC256(secret)).withAudience(audience).withIssuer(issuer).build())
             validate { credential ->
-                if (true) {
-                    JWTPrincipal(credential.payload)
-                } else {
+                if (tokenService.isRevoked(credential.payload.getClaim("tokenId").asInt())) {
                     null
+                } else {
+                    JWTPrincipal(credential.payload)
                 }
             }
         }
+
     }
 }

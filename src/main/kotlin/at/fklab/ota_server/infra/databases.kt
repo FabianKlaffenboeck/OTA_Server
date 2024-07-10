@@ -5,6 +5,7 @@ import at.fklab.ota_server.development.sampleReleaseTrains
 import at.fklab.ota_server.development.sampleUsers
 import at.fklab.ota_server.models.FirmwareReleases
 import at.fklab.ota_server.models.ReleaseTrains
+import at.fklab.ota_server.models.Tokens
 import at.fklab.ota_server.models.Users
 import at.fklab.ota_server.services.FirmwareReleaseService
 import at.fklab.ota_server.services.ReleaseTrainService
@@ -14,7 +15,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-val tables = listOf(Users, FirmwareReleases, ReleaseTrains)
+val tables = listOf(Users, FirmwareReleases, ReleaseTrains, Tokens)
 
 
 fun Application.configureDatabases(

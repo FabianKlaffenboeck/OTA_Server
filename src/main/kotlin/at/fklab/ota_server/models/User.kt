@@ -11,11 +11,11 @@ import org.jetbrains.exposed.sql.javatime.datetime
 object Users : IntIdTable("users") {
 
 
-    val login = varchar("login", 10)
-    val password = varchar("password", 30)
-    val firstname = varchar("firstname", 255)
-    val lastname = varchar("lastname", 255)
-    val description = varchar("description", 255)
+    val login = varchar("login", 10).default("")
+    val password = varchar("password", 30).default("")
+    val firstname = varchar("firstname", 255).default("")
+    val lastname = varchar("lastname", 255).default("")
+    val description = varchar("description", 255).default("")
 
     val updatedAt = datetime("updatedAt").nullable()
     val updatedBy = text("updatedBy").nullable()
@@ -27,7 +27,7 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserEntity>(Users)
 
     var login by Users.login
-    val password by Users.password
+    var password by Users.password
     var firstname by Users.firstname
     var lastname by Users.lastname
     var description by Users.description
