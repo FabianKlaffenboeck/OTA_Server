@@ -1,4 +1,4 @@
-openapi: "3.0.2"
+openapi: "3.1.0"
 info:
   title: "OTA_Server API"
   description: "OTA_Server API"
@@ -6,12 +6,451 @@ info:
 servers:
 - url: "https://OTA_Server"
 paths:
-  /api/v0.0.1/firmware:
+  /rest/v0.0.1/firmwareReleases:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/FirmwareRelease"
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FirmwareReleaseInput"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FirmwareRelease"
+    put:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FirmwareReleaseInput"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FirmwareRelease"
+  /rest/v0.0.1/firmwareReleases/{id}:
+    delete:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Unit"
     get:
       description: ""
       parameters:
-      - name: "device-id"
-        in: "header"
-        required: false
+      - name: "id"
+        in: "path"
+        required: true
         schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FirmwareRelease"
+  /rest/v0.0.1/firmwareReleases/{id}/binary:
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK <br> A file response"
+          content:
+            application/*:
+              schema:
+                type: "object"
+                format: "binary"
+    post:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /rest/v0.0.1/login:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/HashMap_String"
+  /rest/v0.0.1/releaseTrains:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ReleaseTrain"
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseTrainInput"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ReleaseTrain"
+    put:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseTrainInput"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ReleaseTrain"
+  /rest/v0.0.1/releaseTrains/{id}:
+    delete:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Unit"
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ReleaseTrain"
+  /rest/v0.0.1/users:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+  /rest/v0.0.1/users/{id}:
+    delete:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Unit"
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+components:
+  schemas:
+    FirmwareRelease:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        version:
+          type: "string"
+        buildHash:
+          type: "string"
+        pipeLineId:
+          type: "string"
+        commitHash:
+          type: "string"
+        info:
+          type: "string"
+      required:
+      - "version"
+      - "buildHash"
+      - "pipeLineId"
+      - "commitHash"
+    ReleaseTrainInput:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        info:
+          type: "string"
+    FirmwareReleaseInput:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        version:
+          type: "string"
+        buildHash:
+          type: "string"
+        pipeLineId:
+          type: "string"
+        commitHash:
+          type: "string"
+        info:
+          type: "string"
+        releaseTrain:
+          $ref: "#/components/schemas/ReleaseTrainInput"
+      required:
+      - "version"
+      - "buildHash"
+      - "pipeLineId"
+      - "commitHash"
+      - "releaseTrain"
+    Unit:
+      type: "object"
+      properties: {}
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        login:
+          type: "string"
+        password:
+          type: "string"
+        firstname:
+          type: "string"
+        lastname:
+          type: "string"
+        description:
+          type: "string"
+      required:
+      - "login"
+      - "password"
+      - "firstname"
+      - "lastname"
+      - "description"
+    HashMap:
+      type: "object"
+      properties: {}
+    HashMap_String:
+      type: "string"
+    ReleaseTrain:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        firmwareReleases:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/FirmwareRelease"
+        info:
           type: "string"

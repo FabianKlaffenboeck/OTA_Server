@@ -14,7 +14,9 @@ group = "at.fklab.ota_server"
 version = "0.0.1"
 
 application {
-    mainClass.set("at.fklab.ota_server.ApplicationKt")
+    mainClass.set("io.ktor.server.netty.EngineMain")
+
+//    mainClass.set("at.fklab.ota_server.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -28,12 +30,20 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-cors-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+
+    implementation("com.h2database:h2:2.1.214")
+    implementation("org.xerial:sqlite-jdbc:$sqlite_version")
+    implementation("mysql:mysql-connector-java:8.0.32")
+
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-serialization-gson:$ktor_version")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm")
 
     implementation("io.ktor:ktor-server-swagger:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
@@ -42,12 +52,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
-
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-
-    implementation("com.h2database:h2:2.1.214")
-    implementation("org.xerial:sqlite-jdbc:$sqlite_version")
-    implementation("mysql:mysql-connector-java:8.0.32")
 
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")

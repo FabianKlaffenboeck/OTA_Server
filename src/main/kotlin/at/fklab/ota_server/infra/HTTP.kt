@@ -1,4 +1,4 @@
-package at.fklab.ota_server.plugins
+package at.fklab.ota_server.infra
 
 import io.ktor.http.*
 import io.ktor.server.application.*

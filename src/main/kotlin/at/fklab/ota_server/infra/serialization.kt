@@ -1,8 +1,8 @@
-package at.fklab.ota_server.plugins
+package at.fklab.ota_server.infra
 
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-
 import io.ktor.serialization.jackson.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

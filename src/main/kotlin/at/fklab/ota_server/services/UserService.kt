@@ -1,6 +1,5 @@
 package at.fklab.ota_server.services
 
-import at.fklab.ota_server.models.AccessTokenEntity
 import at.fklab.ota_server.models.User
 import at.fklab.ota_server.models.UserEntity
 import at.fklab.ota_server.models.Users
@@ -23,8 +22,12 @@ class UserService {
 
     fun add(user: User): User = transaction {
         UserEntity.new {
-            accessToken = user.accessToken.id?.let { AccessTokenEntity.findById(it) }!!
-            info = user.info
+
+            login = user.login
+            password = user.password
+            firstname = user.firstname
+            lastname = user.lastname
+            description = user.description
 
             updatedAt = LocalDateTime.now()
             updatedBy = ""
@@ -34,8 +37,11 @@ class UserService {
     fun update(user: User): User = transaction {
         val notNullId = user.id!!
 
-        UserEntity[notNullId].accessToken = user.accessToken.id?.let { AccessTokenEntity.findById(it) }!!
-        UserEntity[notNullId].info = user.info
+        UserEntity[notNullId].login = user.login
+        UserEntity[notNullId].password = user.password
+        UserEntity[notNullId].firstname = user.firstname
+        UserEntity[notNullId].lastname = user.lastname
+        UserEntity[notNullId].description = user.description
 
         UserEntity[notNullId].updatedAt = LocalDateTime.now()
         UserEntity[notNullId].updatedBy = ""
@@ -45,4 +51,5 @@ class UserService {
     fun delete(id: Int) = transaction {
         UserEntity[id].deletedAt = LocalDateTime.now()
     }
+
 }

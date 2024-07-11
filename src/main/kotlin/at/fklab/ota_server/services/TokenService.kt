@@ -1,46 +1,66 @@
 package at.fklab.ota_server.services
 
-import at.fklab.ota_server.models.*
-import org.jetbrains.exposed.sql.Op
+import at.fklab.ota_server.models.TokenEntity
+import at.fklab.ota_server.models.TokenState
+import at.fklab.ota_server.models.Tokens
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
+import java.util.*
 
-class TokenService {
+class TokenService(
+    private val secret: String,
+    private val issuer: String,
+    private val audience: String,
+    private val myRealm: String,
+    private val liveTime: Int
+) {
 
-    fun getAll(): List<AccessToken> = transaction {
-        val query = Op.build { Users.deletedAt.isNull() }
-        AccessTokenEntity.find(query).map(AccessTokenEntity::toAccessToken)
+    fun generateNewToken(userName: String, withExpDate: Boolean = true): String {
+
+        val tokenId = transaction {
+            TokenEntity.new {
+                tokenState = TokenState.VALID
+                createdAt = LocalDateTime.now()
+            }.id.value
+        }
+
+        var token = ""
+        if (withExpDate) {
+            token = JWT
+                .create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("tokenId", tokenId)
+                .withClaim("username", userName)
+                .withExpiresAt(Date(System.currentTimeMillis() + (liveTime * 6000)))
+                .sign(Algorithm.HMAC256(secret))
+        } else {
+            token = JWT
+                .create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("tokenId", tokenId)
+                .withClaim("username", userName)
+                .sign(Algorithm.HMAC256(secret))
+        }
+
+        val token64 = Base64.getEncoder().encodeToString(token.toByteArray())
+
+        return token64
     }
 
-    fun getById(id: Int): AccessToken? = transaction {
-        AccessTokenEntity.find {
-            AccessTokens.id eq id
-        }.firstOrNull()?.toAccessToken()
-    }
+    fun isRevoked(tokenID: Int): Boolean {
+        val tokenEntity = transaction {
+            TokenEntity.find(Tokens.id eq tokenID).firstOrNull()
+        }
 
-    fun add(accessToken: AccessToken): AccessToken = transaction {
-        AccessTokenEntity.new {
+        if (tokenEntity != null) {
+            return tokenEntity.tokenState == TokenState.REVOKED
+        }
 
-            tokenString = accessToken.tokenString
-            info = accessToken.info
-
-            updatedAt = LocalDateTime.now()
-            updatedBy = ""
-        }.toAccessToken()
-    }
-
-    fun update(accessToken: AccessToken): AccessToken = transaction {
-        val notNullId = accessToken.id!!
-
-        AccessTokenEntity[notNullId].tokenString = accessToken.tokenString
-        AccessTokenEntity[notNullId].info = accessToken.info
-
-        AccessTokenEntity[notNullId].updatedAt = LocalDateTime.now()
-        AccessTokenEntity[notNullId].updatedBy = ""
-        AccessTokenEntity[notNullId].toAccessToken()
-    }
-
-    fun delete(id: Int) = transaction {
-        AccessTokenEntity[id].deletedAt = LocalDateTime.now()
+        return true
     }
 }
