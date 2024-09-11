@@ -1,3 +1,6 @@
+variables:
+  GRADLE_VERSION: "gradle:8.7-jdk21"
+
 include:
-  project: 'FabianKla/cicd_dry_templates'
-  file: 'complete/kotlin/Kotlin_Build_Gradle8_7_jdk21.yml'
+  project: 'FKLab/cicd_dry_templates'
+  file: 'templates/kotlin_pipeline.yml'
